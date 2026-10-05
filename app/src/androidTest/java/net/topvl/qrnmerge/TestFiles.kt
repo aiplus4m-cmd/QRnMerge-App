@@ -79,10 +79,19 @@ class TestFiles(val context: Context) {
         fun grantLegacyStorage() {
             if (Build.VERSION.SDK_INT < 29) {
                 val inst = InstrumentationRegistry.getInstrumentation()
-                inst.uiAutomation.executeShellCommand(
-                    "pm grant ${inst.targetContext.packageName} android.permission.WRITE_EXTERNAL_STORAGE",
-                ).close()
-                Thread.sleep(500)
+                val pkg = inst.targetContext.packageName
+                val perm = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                if (Build.VERSION.SDK_INT >= 28) {
+                    // Blocking grant, takes effect in the running process (same as the user tapping "Allow").
+                    inst.uiAutomation.grantRuntimePermission(pkg, perm)
+                } else {
+                    inst.uiAutomation.executeShellCommand("pm grant $pkg $perm").use { pfd ->
+                        android.os.ParcelFileDescriptor.AutoCloseInputStream(pfd).readBytes()
+                    }
+                }
+                check(inst.targetContext.checkSelfPermission(perm) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    "storage permission not granted"
+                }
             }
         }
 
