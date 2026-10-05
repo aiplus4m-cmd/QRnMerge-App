@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QRnMerge</string>
+
+    <string name="tab_scan">Scan</string>
+    <string name="tab_merge">Merge</string>
+    <string name="tab_about">About</string>
+
+    <!-- Scan -->
+    <string name="scan_title">Document scanner</string>
+    <string name="scan_subtitle">Paper-like scans, straight from your camera</string>
+    <string name="scan_hero_title">Scan paper like a real scanner</string>
+    <string name="scan_feature_1">Auto edge detection &amp; perspective flattening</string>
+    <string name="scan_feature_2">Removes shadows, sharpens text</string>
+    <string name="scan_feature_3">Save as images or PDF</string>
+    <string name="scan_start">Start scanning</string>
+    <string name="scan_from_gallery">Enhance photos from gallery</string>
+    <string name="scan_add_page">Add</string>
+    <string name="scan_save_images">Images</string>
+    <string name="scan_save_pdf">PDF</string>
+    <string name="scan_to_merge">Merge</string>
+    <string name="scan_pages">%1$d pages</string>
+    <string name="scan_clear">Clear all pages</string>
+    <string name="scan_clear_confirm">Remove all scanned pages?</string>
+    <string name="scan_mode_original">Original</string>
+    <string name="scan_mode_auto">Magic color</string>
+    <string name="scan_mode_gray">Grayscale</string>
+    <string name="scan_mode_bw">B&amp;W</string>
+    <string name="scan_sharpness">Sharpness</string>
+    <string name="scan_contrast">Contrast</string>
+    <string name="scan_importing">Importing pages…</string>
+    <string name="scan_import_failed">Some images could not be read</string>
+    <string name="scan_saving">Saving…</string>
+    <string name="scan_preparing">Preparing pages…</string>
+    <string name="scan_saved_images">Saved %1$d image(s) to %2$s</string>
+    <string name="scan_saved_pdf">Saved %1$s to %2$s</string>
+    <string name="scan_unavailable">Document scanner is not available on this device (needs Google Play services). You can still enhance photos from the gallery.</string>
+    <string name="scan_hold_compare">Press and hold to see the original</string>
+    <string name="rotate">Rotate</string>
+    <string name="delete">Delete</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="open">Open</string>
+    <string name="share">Share</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
+
+    <!-- QR -->
+    <string name="qr_tile">QR</string>
+    <string name="qr_title">QR code</string>
+    <string name="qr_scan_again">Scan again</string>
+    <string name="qr_from_image">From image</string>
+    <string name="qr_not_found">No QR code / barcode found in this image</string>
+    <string name="qr_error">Scanner unavailable: %1$s</string>
+    <string name="qr_open_link">Open link</string>
+    <string name="qr_call">Call</string>
+    <string name="qr_email">Send email</string>
+    <string name="qr_sms">Send SMS</string>
+    <string name="qr_map">Open map</string>
+    <string name="qr_copy_password">Copy password</string>
+    <string name="qr_type_url">Link</string>
+    <string name="qr_type_wifi">Wi‑Fi</string>
+    <string name="qr_type_email">Email</string>
+    <string name="qr_type_phone">Phone</string>
+    <string name="qr_type_sms">SMS</string>
+    <string name="qr_type_geo">Location</string>
+    <string name="qr_type_text">Text</string>
+    <string name="qr_wifi_details">Network: %1$s\nPassword: %2$s\nSecurity: %3$s</string>
+    <string name="qr_history">Recent scans</string>
+    <string name="qr_history_clear">Clear</string>
+    <string name="qr_promo_title">Need your own QR code?</string>
+    <string name="qr_promo_body">Create QR codes for links, Wi‑Fi, contacts… for free with the NhảmStudio QR generator.</string>
+    <string name="qr_promo_button">Create free QR</string>
+    <string name="qr_empty">Tap “Scan again” to scan with the camera or pick an image.</string>
+
+    <!-- Merge -->
+    <string name="merge_title">Merge to PDF</string>
+    <string name="merge_subtitle_empty">Combine images and PDFs into one PDF</string>
+    <string name="merge_summary">%1$d files · %2$d pages</string>
+    <string name="merge_empty_title">Nothing to merge yet</string>
+    <string name="merge_empty_body">Pick images and/or PDF files. Drag to reorder, then merge into a single PDF saved on your device.</string>
+    <string name="merge_add_images">Images</string>
+    <string name="merge_add_files">PDF / files</string>
+    <string name="merge_output_name">File name</string>
+    <string name="merge_page_a4">A4 pages</string>
+    <string name="merge_page_fit">Fit image</string>
+    <string name="merge_button">Merge &amp; save PDF</string>
+    <string name="merge_working">Merging… %1$d / %2$d</string>
+    <string name="merge_done_title">PDF saved</string>
+    <string name="merge_done_body">%1$s\n%2$d pages · %3$s\nSaved in: %4$s</string>
+    <string name="merge_save_as">Save to another location…</string>
+    <string name="merge_saved_copy">Copy saved</string>
+    <string name="merge_failed_title">Could not merge</string>
+    <string name="merge_clear">Clear list</string>
+    <string name="merge_drag_hint">Drag ≡ to reorder</string>
+    <string name="merge_item_pdf">PDF · %1$s pages · %2$s</string>
+    <string name="merge_item_image">Image · %1$s</string>
+    <string name="merge_move_up">Move up</string>
+    <string name="merge_move_down">Move down</string>
+    <string name="merge_storage_permission">Storage permission is required to save files on this Android version.</string>
+    <string name="no_app_to_open">No app found to open this file</string>
+
+    <string name="err_password">“%1$s” is password-protected and cannot be merged.</string>
+    <string name="err_corrupt">“%1$s” is not a valid PDF or is damaged.</string>
+    <string name="err_image">Cannot read image “%1$s”.</string>
+    <string name="err_empty">Nothing to merge.</string>
+    <string name="err_memory">Not enough memory. Try fewer or smaller files.</string>
+    <string name="err_generic">Error: %1$s</string>
+
+    <!-- About -->
+    <string name="about_tagline">Scan documents, scan QR codes and merge PDFs – all in one lightweight app.</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_dev">Developer</string>
+    <string name="about_web">Website</string>
+    <string name="about_qr_tool">Free QR generator</string>
+    <string name="about_privacy_title">Privacy</string>
+    <string name="about_privacy">Everything is processed on your device. Your documents are never uploaded.</string>
+    <string name="about_features">Features</string>
+    <string name="about_f1">Document scanner with flattening, shadow removal and text sharpening</string>
+    <string name="about_f2">QR &amp; barcode scanner (camera or image)</string>
+    <string name="about_f3">Merge images and PDFs into one PDF, saved to Download/QRnMerge</string>
+    <string name="about_copyright">© 2026 NhảmStudio</string>
+</resources>
