@@ -60,6 +60,10 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+    installation {
+        // Grant runtime permissions at install time for instrumented tests (Android 9 storage).
+        installOptions.add("-g")
+    }
 }
 
 dependencies {
