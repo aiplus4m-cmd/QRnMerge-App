@@ -1,0 +1,142 @@
+name: Android CI & Release
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+env:
+  VERSION_CODE: ${{ github.run_number }}
+
+jobs:
+  build:
+    name: Build & unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Decode release keystore (optional secret)
+        env:
+          KEYSTORE_B64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "RELEASE_KEYSTORE_FILE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          fi
+      - name: Unit tests + release APK
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          # Empty secrets must not override the defaults in build.gradle.kts
+          [ -z "$RELEASE_KEYSTORE_PASSWORD" ] && unset RELEASE_KEYSTORE_PASSWORD
+          [ -z "$RELEASE_KEY_ALIAS" ] && unset RELEASE_KEY_ALIAS
+          [ -z "$RELEASE_KEY_PASSWORD" ] && unset RELEASE_KEY_PASSWORD
+          ./gradlew --no-daemon testDebugUnitTest assembleRelease
+      - name: Verify APK signature
+        run: |
+          APKSIGNER=$(ls $ANDROID_HOME/build-tools/*/apksigner | sort -V | tail -1)
+          $APKSIGNER verify --print-certs app/build/outputs/apk/release/app-release.apk
+          ls -la app/build/outputs/apk/release/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: app/build/outputs/apk/release/app-release.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-reports
+          path: app/build/reports/tests/
+
+  device-tests:
+    name: Emulator tests (API ${{ matrix.api }})
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [28, 34]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Build test APKs
+        run: ./gradlew --no-daemon assembleDebug assembleDebugAndroidTest
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: release-apk
+      - name: Run instrumented tests + release APK smoke test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: bash scripts/device-tests.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: device-test-reports-api${{ matrix.api }}
+          path: |
+            app/build/reports/androidTests/
+            app/build/outputs/androidTest-results/
+            logcat.txt
+
+  release:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build, device-tests]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: dist
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="1.0.${{ github.run_number }}"
+          mv dist/app-release.apk "dist/QRnMerge-v${VERSION}.apk"
+          cat > notes.md <<NOTES
+          ## QRnMerge v${VERSION}
+
+          Ứng dụng gộp **Scan tài liệu + Quét QR + Gộp PDF** của NhảmStudio.
+
+          - **Scan**: scan tài liệu (tự nhận viền, làm phẳng), bộ lọc làm nét Màu sắc nét / Xám / Đen trắng, lưu ảnh (Pictures/QRnMerge) hoặc PDF. Ô **QR** nhỏ ở góc để quét mã QR / mã vạch.
+          - **Gộp PDF**: chọn nhiều ảnh và/hoặc PDF, kéo để sắp xếp, gộp thành 1 file PDF lưu vào **Download/QRnMerge**.
+          - **Giới thiệu**: NhảmStudio · https://topvl.net · Tạo QR miễn phí: https://topvl.net/qr
+
+          Cài đặt: tải file \`QRnMerge-v${VERSION}.apk\` bên dưới và mở trên điện thoại Android 7.0+.
+
+          Commit: ${GITHUB_SHA}
+          NOTES
+          gh release create "v${VERSION}" "dist/QRnMerge-v${VERSION}.apk" \
+            --target "${GITHUB_SHA}" \
+            --title "QRnMerge v${VERSION}" \
+            --notes-file notes.md \
+            --latest
