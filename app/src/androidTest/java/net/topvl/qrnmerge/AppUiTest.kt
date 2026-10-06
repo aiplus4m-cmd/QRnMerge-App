@@ -108,7 +108,7 @@ class AppUiTest {
         rule.onNodeWithTag("select_all").assertIsDisplayed()
 
         // Untick page 2 -> only pages 1 and 3 are saved.
-        rule.onNodeWithTag("scan_check_2").performClick()
+        rule.onNodeWithTag("scan_check_2", useUnmergedTree = true).performClick()
         rule.onNodeWithTag("scan_save").performClick()
         rule.onNodeWithTag("save_format_images").performClick()
         rule.onNodeWithTag("save_confirm").performClick()
