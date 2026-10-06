@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
@@ -370,71 +371,75 @@ private fun ScanWorkspace(
     var showAdjust by rememberSaveable { mutableStateOf(false) }
     val selectedCount = vm.selected.size
     Column(Modifier.fillMaxSize()) {
-        // Filters
-        Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Row(
-                Modifier.weight(1f).horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                listOf(
-                    EnhanceMode.AUTO to R.string.scan_mode_auto,
-                    EnhanceMode.GRAY to R.string.scan_mode_gray,
-                    EnhanceMode.BW to R.string.scan_mode_bw,
-                    EnhanceMode.ORIGINAL to R.string.scan_mode_original,
-                ).forEach { (mode, label) ->
-                    FilterChip(
-                        selected = settings.mode == mode,
-                        onClick = { vm.updateSettings(settings.copy(mode = mode)) },
-                        label = { Text(stringResource(label)) },
-                    )
-                }
-            }
-            IconButton(onClick = { showAdjust = !showAdjust }) {
-                Icon(Icons.Outlined.Tune, stringResource(R.string.scan_adjust), tint = if (showAdjust) BrandBlue else MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
-        AnimatedVisibility(showAdjust) {
-            Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                CompactSlider(stringResource(R.string.scan_sharpness), settings.sharpness, 0f..1.5f, Modifier.weight(1f)) {
-                    vm.updateSettings(vm.settings.copy(sharpness = it))
-                }
-                CompactSlider(
-                    stringResource(R.string.scan_contrast), settings.contrast, 0f..1f, Modifier.weight(1f),
-                    enabled = settings.mode != EnhanceMode.ORIGINAL,
-                ) { vm.updateSettings(vm.settings.copy(contrast = it)) }
-            }
-        }
-
-        // Selection bar
-        Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            val state = when (selectedCount) {
-                0 -> ToggleableState.Off
-                vm.pages.size -> ToggleableState.On
-                else -> ToggleableState.Indeterminate
-            }
-            TriStateCheckbox(
-                state = state,
-                onClick = { vm.selectAll(state != ToggleableState.On) },
-                modifier = Modifier.testTag("select_all"),
-            )
-            Text(
-                stringResource(R.string.scan_selected, selectedCount, vm.pages.size),
-                style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f),
-            )
-            TextButton(onClick = onDelete, enabled = selectedCount > 0) {
-                Icon(Icons.Outlined.Delete, null, Modifier.size(18.dp))
-                Spacer(Modifier.width(4.dp))
-                Text(stringResource(R.string.scan_delete_selected, selectedCount))
-            }
-        }
-
+        // Filters and the selection bar scroll with the pages so small screens keep room for the grid.
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             modifier = Modifier.weight(1f).fillMaxWidth().testTag("scan_grid"),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            item(key = "filters", span = { GridItemSpan(maxLineSpan) }) {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            Modifier.weight(1f).horizontalScroll(rememberScrollState()),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            listOf(
+                                EnhanceMode.AUTO to R.string.scan_mode_auto,
+                                EnhanceMode.GRAY to R.string.scan_mode_gray,
+                                EnhanceMode.BW to R.string.scan_mode_bw,
+                                EnhanceMode.ORIGINAL to R.string.scan_mode_original,
+                            ).forEach { (mode, label) ->
+                                FilterChip(
+                                    selected = settings.mode == mode,
+                                    onClick = { vm.updateSettings(settings.copy(mode = mode)) },
+                                    label = { Text(stringResource(label)) },
+                                )
+                            }
+                        }
+                        IconButton(onClick = { showAdjust = !showAdjust }) {
+                            Icon(
+                                Icons.Outlined.Tune, stringResource(R.string.scan_adjust),
+                                tint = if (showAdjust) BrandBlue else MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    AnimatedVisibility(showAdjust) {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            CompactSlider(stringResource(R.string.scan_sharpness), settings.sharpness, 0f..1.5f, Modifier.weight(1f)) {
+                                vm.updateSettings(vm.settings.copy(sharpness = it))
+                            }
+                            CompactSlider(
+                                stringResource(R.string.scan_contrast), settings.contrast, 0f..1f, Modifier.weight(1f),
+                                enabled = settings.mode != EnhanceMode.ORIGINAL,
+                            ) { vm.updateSettings(vm.settings.copy(contrast = it)) }
+                        }
+                    }
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        val state = when (selectedCount) {
+                            0 -> ToggleableState.Off
+                            vm.pages.size -> ToggleableState.On
+                            else -> ToggleableState.Indeterminate
+                        }
+                        TriStateCheckbox(
+                            state = state,
+                            onClick = { vm.selectAll(state != ToggleableState.On) },
+                            modifier = Modifier.testTag("select_all"),
+                        )
+                        Text(
+                            stringResource(R.string.scan_selected, selectedCount, vm.pages.size),
+                            style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f),
+                        )
+                        TextButton(onClick = onDelete, enabled = selectedCount > 0) {
+                            Icon(Icons.Outlined.Delete, null, Modifier.size(18.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text(stringResource(R.string.scan_delete_selected, selectedCount))
+                        }
+                    }
+                }
+            }
             itemsIndexed(vm.pages, key = { _, p -> p.id }) { index, page ->
                 PageThumb(
                     number = index + 1,
@@ -450,11 +455,11 @@ private fun ScanWorkspace(
 
         // Action bar – scanning more is always one tap away, saving acts on the selection only.
         Surface(tonalElevation = 3.dp, shadowElevation = 8.dp, shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)) {
-            Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
+            Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Button(
                         onClick = onScan,
-                        modifier = Modifier.weight(1f).height(52.dp).testTag("scan_more"),
+                        modifier = Modifier.weight(1f).height(48.dp).testTag("scan_more"),
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = BrandOrange, contentColor = Color.White),
                     ) {
@@ -462,11 +467,11 @@ private fun ScanWorkspace(
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.scan_more), style = MaterialTheme.typography.titleMedium)
                     }
-                    FilledTonalIconButton(onClick = onGallery, modifier = Modifier.size(52.dp)) {
+                    FilledTonalIconButton(onClick = onGallery, modifier = Modifier.size(48.dp)) {
                         Icon(Icons.Outlined.PhotoLibrary, stringResource(R.string.scan_import))
                     }
                 }
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(8.dp))
                 if (selectedCount == 0) {
                     Text(
                         stringResource(R.string.select_hint), style = MaterialTheme.typography.bodySmall,
@@ -476,7 +481,7 @@ private fun ScanWorkspace(
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     OutlinedButton(
                         onClick = onSendToMerge, enabled = selectedCount > 0,
-                        modifier = Modifier.weight(1f).height(48.dp), shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier.weight(1f).height(44.dp), shape = RoundedCornerShape(14.dp),
                     ) {
                         Icon(Icons.Outlined.MergeType, null, Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
@@ -484,7 +489,7 @@ private fun ScanWorkspace(
                     }
                     Button(
                         onClick = onSave, enabled = selectedCount > 0,
-                        modifier = Modifier.weight(1f).height(48.dp).testTag("scan_save"), shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier.weight(1f).height(44.dp).testTag("scan_save"), shape = RoundedCornerShape(14.dp),
                     ) {
                         Icon(Icons.Outlined.Save, null, Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))

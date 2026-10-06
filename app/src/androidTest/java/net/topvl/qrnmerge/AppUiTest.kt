@@ -7,6 +7,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -108,6 +109,7 @@ class AppUiTest {
         rule.onNodeWithTag("select_all").assertIsDisplayed()
 
         // Untick page 2 -> only pages 1 and 3 are saved.
+        rule.onNodeWithTag("scan_grid").performScrollToNode(hasTestTag("scan_page_2"))
         rule.onNodeWithTag("scan_check_2", useUnmergedTree = true).performClick()
         rule.onNodeWithTag("scan_save").performClick()
         rule.onNodeWithTag("save_format_images").performClick()
