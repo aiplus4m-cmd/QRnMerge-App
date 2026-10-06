@@ -4,12 +4,14 @@
 
 | Tab | Chức năng |
 |-----|-----------|
-| **Scan** (mặc định) | Scan tài liệu bằng Google ML Kit Document Scanner (tự nhận viền, **làm phẳng** phối cảnh). Bộ lọc *Màu sắc nét / Xám / Đen trắng / Gốc* khử bóng, làm trắng giấy, **làm nét chữ** (thanh trượt Độ nét, Tương phản). Lưu thành **ảnh** (`Pictures/QRnMerge`) hoặc **PDF**, hoặc gửi sang tab Gộp. Ô **QR** nhỏ ở góc phải để quét mã QR / mã vạch (camera hoặc từ ảnh) – kèm quảng cáo công cụ tạo QR miễn phí https://topvl.net/qr |
+| **Scan** (mặc định) | Scan tài liệu bằng Google ML Kit Document Scanner (tự nhận viền, **làm phẳng** phối cảnh). Bộ lọc *Màu sắc nét / Xám / Đen trắng / Gốc* khử bóng, làm trắng giấy, **làm nét chữ** (Độ nét, Tương phản – được ghi nhớ). Nút **Scan thêm** luôn nằm ở thanh dưới. **Tích chọn trang** → *Lưu* → chọn **Ảnh JPG** (`Pictures/QRnMerge`) hoặc **1 file PDF** (`Download/QRnMerge`); trang đã lưu được gắn nhãn *JPG/PDF* và bỏ chọn để tránh lưu trùng. Xoay / sắp xếp / xoá trang được lưu lại kể cả khi tắt app. Ô **QR** nhỏ ở góc phải để quét mã QR / mã vạch (camera hoặc từ ảnh) – kèm quảng cáo công cụ tạo QR miễn phí https://topvl.net/qr |
 | **Gộp PDF** | Chọn nhiều ảnh và/hoặc PDF, kéo ≡ để sắp xếp, đặt tên, chọn khổ trang (A4 / theo ảnh) → gộp thành 1 PDF lưu vào **`Download/QRnMerge`**, sau đó Mở / Chia sẻ / Lưu vào vị trí khác. Nhận cả file được *Chia sẻ* từ app khác. |
 | **Giới thiệu** | Logo, Dev: NhảmStudio, Web: https://topvl.net |
 
 ## Tải APK
-Mỗi lần push lên `main`, GitHub Actions build + test rồi đăng APK vào mục **[Releases](../../releases)**.
+- Bản mới nhất: **[QRnMerge.apk](https://github.com/aiplus4m-cmd/QRnMerge-App/releases/latest/download/QRnMerge.apk)**
+- Mỗi lần push lên `main`, GitHub Actions build + test rồi đăng APK vào mục **[Releases](../../releases)**.
+- Đoạn HTML giới thiệu app cho website: [`docs/website/qrnmerge-section.html`](docs/website/qrnmerge-section.html).
 
 ## Kỹ thuật
 - Kotlin + Jetpack Compose (Material 3), minSdk 24 (Android 7.0), targetSdk 35.

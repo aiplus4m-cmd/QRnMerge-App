@@ -115,4 +115,32 @@
     <string name="about_f2">Quét mã QR &amp; mã vạch (camera hoặc ảnh)</string>
     <string name="about_f3">Gộp ảnh và PDF thành 1 file PDF, lưu vào Download/QRnMerge</string>
     <string name="about_copyright">© 2026 NhảmStudio</string>
+
+    <!-- Scan selection & save -->
+    <string name="scan_more">Scan thêm</string>
+    <string name="scan_import">Nhập ảnh</string>
+    <string name="scan_selected">Đã chọn %1$d/%2$d trang</string>
+    <string name="select_all">Chọn tất cả</string>
+    <string name="select_none">Bỏ chọn</string>
+    <string name="scan_save_selected">Lưu (%1$d)</string>
+    <string name="scan_delete_selected">Xoá (%1$d)</string>
+    <string name="scan_delete_confirm">Xoá %1$d trang đã chọn? Không thể hoàn tác.</string>
+    <string name="save_sheet_title">Lưu %1$d trang đã chọn</string>
+    <string name="save_as_images">Ảnh JPG</string>
+    <string name="save_as_images_desc">Mỗi trang 1 ảnh → Pictures/QRnMerge</string>
+    <string name="save_as_pdf">File PDF</string>
+    <string name="save_as_pdf_desc">Gộp các trang đã chọn thành 1 PDF → Download/QRnMerge</string>
+    <string name="save_dup_warning">%1$d trang trong số này đã được lưu dạng này trước đó. Lưu tiếp sẽ tạo thêm bản sao.</string>
+    <string name="save_button">Lưu</string>
+    <string name="badge_saved">Đã lưu</string>
+    <string name="select_hint">Tích chọn các trang cần lưu rồi bấm Lưu.</string>
+    <string name="nothing_selected">Hãy chọn ít nhất 1 trang</string>
+    <string name="page_x_of_y">Trang %1$d / %2$d</string>
+    <string name="move_earlier">Đưa lên trước</string>
+    <string name="move_later">Đưa ra sau</string>
+    <string name="select_page">Chọn trang</string>
+    <string name="scan_adjust">Tinh chỉnh</string>
+    <string name="scan_send_merge">Sang Gộp (%1$d)</string>
+    <string name="merge_done_clear">Xong</string>
+    <string name="merge_keep_list">Giữ danh sách</string>
 </resources>

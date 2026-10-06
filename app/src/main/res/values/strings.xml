@@ -121,4 +121,32 @@
     <string name="about_f2">QR &amp; barcode scanner (camera or image)</string>
     <string name="about_f3">Merge images and PDFs into one PDF, saved to Download/QRnMerge</string>
     <string name="about_copyright">© 2026 NhảmStudio</string>
+
+    <!-- Scan selection & save -->
+    <string name="scan_more">Scan more</string>
+    <string name="scan_import">Import photos</string>
+    <string name="scan_selected">%1$d of %2$d selected</string>
+    <string name="select_all">Select all</string>
+    <string name="select_none">Deselect all</string>
+    <string name="scan_save_selected">Save (%1$d)</string>
+    <string name="scan_delete_selected">Delete (%1$d)</string>
+    <string name="scan_delete_confirm">Delete %1$d selected page(s)? This cannot be undone.</string>
+    <string name="save_sheet_title">Save %1$d selected page(s)</string>
+    <string name="save_as_images">JPG images</string>
+    <string name="save_as_images_desc">One image per page → Pictures/QRnMerge</string>
+    <string name="save_as_pdf">PDF document</string>
+    <string name="save_as_pdf_desc">Selected pages combined in one PDF → Download/QRnMerge</string>
+    <string name="save_dup_warning">%1$d of these pages were already saved in this format. Saving again creates another copy.</string>
+    <string name="save_button">Save</string>
+    <string name="badge_saved">Saved</string>
+    <string name="select_hint">Tick the pages you want to save, then tap Save.</string>
+    <string name="nothing_selected">Select at least one page</string>
+    <string name="page_x_of_y">Page %1$d / %2$d</string>
+    <string name="move_earlier">Move earlier</string>
+    <string name="move_later">Move later</string>
+    <string name="select_page">Select page</string>
+    <string name="scan_adjust">Adjust</string>
+    <string name="scan_send_merge">To Merge (%1$d)</string>
+    <string name="merge_done_clear">Done</string>
+    <string name="merge_keep_list">Keep list</string>
 </resources>

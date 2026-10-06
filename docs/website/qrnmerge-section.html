@@ -1,0 +1,93 @@
+<!--
+  QRnMerge – đoạn thay thế cho 2 mục #myscanner và #pdfmerger trên https://topvl.net/mobile-apps.html
+  Cách dùng: xoá 2 khối cũ (MyScanner, PDF Merger) rồi dán toàn bộ đoạn này vào đúng vị trí đó.
+  Upload qrnmerge-icon.png lên cùng thư mục với trang (hoặc sửa đường dẫn src bên dưới).
+  Link tải luôn trỏ tới bản APK mới nhất trên GitHub Releases.
+-->
+<section id="qrnmerge" class="qrn-app">
+  <!-- Giữ anchor cũ để các link #myscanner và #pdfmerger đã chia sẻ vẫn nhảy đúng chỗ -->
+  <span id="myscanner" class="qrn-anchor"></span>
+  <span id="pdfmerger" class="qrn-anchor"></span>
+
+  <style>
+    .qrn-app{--qrn-blue:#2473BA;--qrn-orange:#F28A2C;--qrn-ink:#1d2430;--qrn-muted:#5b6575;--qrn-card:#fff;--qrn-line:#e3e8ef;
+      font-family:inherit;color:var(--qrn-ink);max-width:960px;margin:32px auto;padding:0 16px;box-sizing:border-box}
+    .qrn-app *{box-sizing:border-box}
+    .qrn-anchor{display:block;position:relative;top:-80px;visibility:hidden}
+    .qrn-hero{display:flex;gap:20px;align-items:center;background:var(--qrn-card);border:1px solid var(--qrn-line);
+      border-radius:24px;padding:24px;box-shadow:0 6px 24px rgba(36,115,186,.08)}
+    .qrn-hero img{width:96px;height:96px;border-radius:22px;flex:none;border:1px solid var(--qrn-line)}
+    .qrn-hero h2{margin:0 0 4px;font-size:28px;color:var(--qrn-blue)}
+    .qrn-tag{margin:0 0 12px;color:var(--qrn-muted)}
+    .qrn-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+    .qrn-badges span{font-size:13px;padding:4px 10px;border-radius:999px;background:#eef4fb;color:var(--qrn-blue)}
+    .qrn-btns{display:flex;flex-wrap:wrap;gap:10px}
+    .qrn-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:14px;font-weight:600;text-decoration:none}
+    .qrn-btn.primary{background:var(--qrn-blue);color:#fff}
+    .qrn-btn.ghost{border:1.5px solid var(--qrn-line);color:var(--qrn-ink);background:#fff}
+    .qrn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    .qrn-card{background:var(--qrn-card);border:1px solid var(--qrn-line);border-radius:20px;padding:18px}
+    .qrn-card h3{margin:0 0 8px;font-size:18px;display:flex;align-items:center;gap:8px}
+    .qrn-card h3 b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#fff;font-size:15px}
+    .qrn-card ul{margin:0;padding-left:18px;color:var(--qrn-muted);line-height:1.55}
+    .qrn-promo{margin-top:14px;border-radius:20px;padding:16px 18px;color:#fff;background:linear-gradient(120deg,var(--qrn-orange),#E5672A);
+      display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .qrn-promo a{background:#fff;color:#E5672A;padding:10px 16px;border-radius:12px;font-weight:700;text-decoration:none}
+    .qrn-note{font-size:13px;color:var(--qrn-muted);margin-top:10px}
+    @media (max-width:760px){.qrn-grid{grid-template-columns:1fr}.qrn-hero{flex-direction:column;text-align:center}
+      .qrn-badges,.qrn-btns{justify-content:center}}
+  </style>
+
+  <div class="qrn-hero">
+    <img src="qrnmerge-icon.png" alt="QRnMerge icon" width="96" height="96" loading="lazy">
+    <div>
+      <h2>QRnMerge</h2>
+      <p class="qrn-tag">Scan tài liệu · Quét mã QR · Gộp PDF – 3 trong 1, gọn nhẹ, xử lý hoàn toàn trên điện thoại.
+        <br><em>Thay thế cho 2 app MyScanner và PDF Merger trước đây.</em></p>
+      <div class="qrn-badges">
+        <span>Android 7.0+</span><span>Miễn phí</span><span>Không cần tài khoản</span><span>Không tải tài liệu lên máy chủ</span>
+      </div>
+      <div class="qrn-btns">
+        <a class="qrn-btn primary" href="https://github.com/aiplus4m-cmd/QRnMerge-App/releases/latest/download/QRnMerge.apk">⬇ Tải APK mới nhất</a>
+        <a class="qrn-btn ghost" href="https://github.com/aiplus4m-cmd/QRnMerge-App/releases" target="_blank" rel="noopener">Các phiên bản</a>
+        <a class="qrn-btn ghost" href="https://github.com/aiplus4m-cmd/QRnMerge-App" target="_blank" rel="noopener">Mã nguồn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="qrn-grid">
+    <div class="qrn-card">
+      <h3><b style="background:#2473BA">⎙</b> Scan tài liệu</h3>
+      <ul>
+        <li>Tự nhận viền, làm phẳng trang giấy</li>
+        <li>Bộ lọc Màu sắc nét / Xám / Đen trắng: khử bóng, làm trắng nền, làm nét chữ</li>
+        <li>Tích chọn trang → lưu ảnh JPG hoặc 1 file PDF</li>
+        <li>Xoay, sắp xếp trang; trang đã lưu được đánh dấu</li>
+      </ul>
+    </div>
+    <div class="qrn-card">
+      <h3><b style="background:#F28A2C">▦</b> Quét mã QR</h3>
+      <ul>
+        <li>Ô QR ở góc màn hình Scan – chạm là quét</li>
+        <li>Quét bằng camera hoặc từ ảnh có sẵn</li>
+        <li>Nhận diện link, Wi‑Fi, email, số điện thoại, SMS, vị trí</li>
+        <li>Lưu lịch sử 20 lần quét gần nhất</li>
+      </ul>
+    </div>
+    <div class="qrn-card">
+      <h3><b style="background:#00897B">⧉</b> Gộp PDF</h3>
+      <ul>
+        <li>Chọn nhiều ảnh và/hoặc PDF</li>
+        <li>Kéo thả để sắp xếp, chọn khổ A4 hoặc theo ảnh</li>
+        <li>Giữ nguyên chất lượng trang PDF gốc</li>
+        <li>Lưu vào Download/QRnMerge, mở / chia sẻ ngay</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="qrn-promo">
+    <div><strong>Cần tạo mã QR?</strong> Tạo QR cho link, Wi‑Fi, danh thiếp… miễn phí.</div>
+    <a href="https://topvl.net/qr">Tạo QR miễn phí →</a>
+  </div>
+  <p class="qrn-note">Cài APK: mở file đã tải → cho phép “Cài ứng dụng không rõ nguồn gốc” nếu Android hỏi. Bản cập nhật cài đè trực tiếp, không mất dữ liệu.</p>
+</section>
