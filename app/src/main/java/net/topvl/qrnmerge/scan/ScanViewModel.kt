@@ -126,7 +126,7 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
         return fromManifest + orphans
     }
 
-    private fun setPages(value: List<ScanPage>) {
+    private fun commitPages(value: List<ScanPage>) {
         pages = value
         selected = selected.intersect(value.map { it.id }.toSet())
         runCatching {
@@ -171,21 +171,21 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
                 }.getOrNull()
             }
         }
-        setPages(pages + added)
+        commitPages(pages + added)
         selected = selected + added.map { it.id }
         return uris.size - added.size
     }
 
     fun rotate(page: ScanPage) {
         PageRenderer.evict(page)
-        setPages(pages.map { if (it.id == page.id) it.copy(rotation = (it.rotation + 90) % 360) else it })
+        commitPages(pages.map { if (it.id == page.id) it.copy(rotation = (it.rotation + 90) % 360) else it })
     }
 
     fun move(page: ScanPage, delta: Int) {
         val from = pages.indexOfFirst { it.id == page.id }
         val to = (from + delta).coerceIn(0, pages.lastIndex)
         if (from < 0 || from == to) return
-        setPages(pages.toMutableList().apply { add(to, removeAt(from)) })
+        commitPages(pages.toMutableList().apply { add(to, removeAt(from)) })
     }
 
     fun remove(page: ScanPage) = removeAll(setOf(page.id))
@@ -195,7 +195,7 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
     private fun removeAll(ids: Set<Long>) {
         val (gone, keep) = pages.partition { it.id in ids }
         gone.forEach { PageRenderer.evict(it); it.file.delete() }
-        setPages(keep)
+        commitPages(keep)
     }
 
     fun clear() = removeAll(pages.map { it.id }.toSet())
@@ -258,7 +258,7 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
             }
         }
         val ids = targets.map { it.id }.toSet()
-        setPages(pages.map {
+        commitPages(pages.map {
             if (it.id !in ids) it
             else if (format == SaveFormat.IMAGES) it.copy(savedAsImage = true) else it.copy(savedInPdf = true)
         })
