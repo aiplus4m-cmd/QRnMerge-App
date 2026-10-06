@@ -120,22 +120,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION="1.0.${{ github.run_number }}"
+          VERSION="1.1.${{ github.run_number }}"
           mv dist/app-release.apk "dist/QRnMerge-v${VERSION}.apk"
+          # Stable file name so https://github.com/<repo>/releases/latest/download/QRnMerge.apk always works.
+          cp "dist/QRnMerge-v${VERSION}.apk" dist/QRnMerge.apk
           cat > notes.md <<NOTES
           ## QRnMerge v${VERSION}
 
           Ứng dụng gộp **Scan tài liệu + Quét QR + Gộp PDF** của NhảmStudio.
 
-          - **Scan**: scan tài liệu (tự nhận viền, làm phẳng), bộ lọc làm nét Màu sắc nét / Xám / Đen trắng, lưu ảnh (Pictures/QRnMerge) hoặc PDF. Ô **QR** nhỏ ở góc để quét mã QR / mã vạch.
+          - **Scan**: scan tài liệu (tự nhận viền, làm phẳng), bộ lọc làm nét Màu sắc nét / Xám / Đen trắng. Tích chọn trang rồi lưu thành ảnh JPG (Pictures/QRnMerge) hoặc 1 file PDF; trang đã lưu được đánh dấu để tránh trùng. Xoay / sắp xếp trang được lưu lại. Ô **QR** nhỏ ở góc để quét mã QR / mã vạch.
           - **Gộp PDF**: chọn nhiều ảnh và/hoặc PDF, kéo để sắp xếp, gộp thành 1 file PDF lưu vào **Download/QRnMerge**.
           - **Giới thiệu**: NhảmStudio · https://topvl.net · Tạo QR miễn phí: https://topvl.net/qr
 
-          Cài đặt: tải file \`QRnMerge-v${VERSION}.apk\` bên dưới và mở trên điện thoại Android 7.0+.
+          Cài đặt: tải file \`QRnMerge.apk\` (hoặc \`QRnMerge-v${VERSION}.apk\`) bên dưới và mở trên điện thoại Android 7.0+.
 
           Commit: ${GITHUB_SHA}
           NOTES
-          gh release create "v${VERSION}" "dist/QRnMerge-v${VERSION}.apk" \
+          gh release create "v${VERSION}" "dist/QRnMerge-v${VERSION}.apk" dist/QRnMerge.apk \
             --target "${GITHUB_SHA}" \
             --title "QRnMerge v${VERSION}" \
             --notes-file notes.md \

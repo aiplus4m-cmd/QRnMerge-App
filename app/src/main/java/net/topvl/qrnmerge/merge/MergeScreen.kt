@@ -396,7 +396,8 @@ private fun DoneDialog(result: MergeResult, onDismiss: () -> Unit, onClear: () -
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss, modifier = Modifier.testTag("merge_done_ok")) { Text(stringResource(R.string.ok)) } },
-        dismissButton = { TextButton(onClick = onClear) { Text(stringResource(R.string.merge_clear)) } },
+        // "Done" clears the list so pressing Merge again cannot silently create a duplicate PDF.
+        confirmButton = { TextButton(onClick = onClear, modifier = Modifier.testTag("merge_done_ok")) { Text(stringResource(R.string.merge_done_clear)) } },
+        dismissButton = { TextButton(onClick = onDismiss, modifier = Modifier.testTag("merge_keep")) { Text(stringResource(R.string.merge_keep_list)) } },
     )
 }

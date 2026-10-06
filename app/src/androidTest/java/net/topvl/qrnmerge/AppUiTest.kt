@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import net.topvl.qrnmerge.merge.MergeStatus
 import net.topvl.qrnmerge.merge.MergeViewModel
+import net.topvl.qrnmerge.scan.ScanViewModel
 import net.topvl.qrnmerge.util.SavedFile
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -34,9 +35,16 @@ class AppUiTest {
     fun setUp() = TestFiles.grantLegacyStorage()
 
     @After
-    fun tearDown() = saved.forEach { TestFiles.delete(context, it) }
+    fun tearDown() {
+        saved.forEach { TestFiles.delete(context, it) }
+        rule.runOnUiThread { scanVm().clear() }
+    }
 
     private fun mergeVm() = ViewModelProvider(rule.activity)[MergeViewModel::class.java]
+    private fun scanVm() = ViewModelProvider(rule.activity)[ScanViewModel::class.java]
+
+    @Before
+    fun cleanScans() = rule.runOnUiThread { scanVm().clear() }
 
     @Test
     fun scanTabShowsDocumentScannerAndQrCornerTile() {
@@ -82,8 +90,35 @@ class AppUiTest {
         assertEquals(4, TestFiles.pageSizes(context, result.saved.uri).size)
         assertTrue(TestFiles.existsInDownloads(context, result.saved.displayName))
 
+        // "Done" clears the list so a second tap on Merge cannot create a duplicate.
         rule.onNodeWithTag("merge_done_ok").performClick()
         rule.waitUntil(5_000) { rule.onAllNodes(hasTestTag("merge_done")).fetchSemanticsNodes().isEmpty() }
+        assertTrue(mergeVm().items.isEmpty())
+    }
+
+    @Test
+    fun scanTabSavesOnlyTickedPagesAsImages() {
+        val files = TestFiles(context)
+        val uris = (1..3).map { android.net.Uri.fromFile(files.image("p$it.jpg", 900, 1200)) }
+        kotlinx.coroutines.runBlocking { scanVm().importImages(uris) }
+        rule.waitForIdle()
+
+        // "Scan more" stays visible in the action bar once pages exist.
+        rule.onNodeWithTag("scan_more").assertIsDisplayed()
+        rule.onNodeWithTag("select_all").assertIsDisplayed()
+
+        // Untick page 2 -> only pages 1 and 3 are saved.
+        rule.onNodeWithTag("scan_check_2").performClick()
+        rule.onNodeWithTag("scan_save").performClick()
+        rule.onNodeWithTag("save_format_images").performClick()
+        rule.onNodeWithTag("save_confirm").performClick()
+        rule.waitUntil(60_000) { scanVm().lastSaved.isNotEmpty() && scanVm().busyMessage == null }
+
+        val result = scanVm().lastSaved
+        saved += result
+        assertEquals(2, result.size)
+        assertTrue(scanVm().selected.isEmpty())
+        assertEquals(listOf(true, false, true), scanVm().pages.map { it.savedAsImage })
     }
 
     @Test
