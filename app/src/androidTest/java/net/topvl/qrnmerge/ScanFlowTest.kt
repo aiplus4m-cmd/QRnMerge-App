@@ -69,12 +69,29 @@ class ScanFlowTest {
     }
 
     @Test
+    fun exportedPdfIsInScanOrderOldestFirst() = runBlocking {
+        // Batch 1: two portrait pages, batch 2 (scanned later): two landscape pages.
+        vm.importImages((1..2).map { Uri.fromFile(files.image("old$it.jpg", 1000, 1400)) })
+        vm.importImages((1..2).map { Uri.fromFile(files.image("new$it.jpg", 1400, 1000)) })
+        // Display: newest batch on top -> its first page is document page 3.
+        assertEquals(3, vm.documentNumber(vm.pages[0]))
+        assertEquals(1, vm.documentNumber(vm.pages[2]))
+        vm.selectAll(true)
+
+        val result = vm.save(SaveFormat.PDF, "order_${System.nanoTime()}")
+        saved += result
+        val sizes = TestFiles.pageSizes(context, result[0].uri)
+        assertEquals(4, sizes.size)
+        val portrait = sizes.map { it.second > it.first }
+        assertEquals("old scan first, newest last", listOf(true, true, false, false), portrait)
+    }
+
+    @Test
     fun rotationOrderAndFilterSurviveAppRestart() {
         importThree()
         val second = vm.pages[1]
         vm.rotate(second)
         vm.rotate(vm.pages[1])                       // 180°
-        vm.move(vm.pages[2], -2)                     // third page becomes first
         vm.updateSettings(EnhanceSettings(EnhanceMode.BW, 0.9f, 0.3f))
         val order = vm.pages.map { it.id }
 
