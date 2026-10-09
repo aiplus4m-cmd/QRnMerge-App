@@ -19,7 +19,7 @@ class FileNamesTest {
     }
     @Test fun defaultName() {
         val cal = Calendar.getInstance().apply { set(2026, Calendar.OCTOBER, 5, 9, 7, 3) }
-        assertEquals("QRnMerge_20261005_090703", FileNames.defaultPdfName(date = cal.time))
+        assertEquals("Scan2PDF_20261005_090703", FileNames.defaultPdfName(date = cal.time))
     }
     @Test fun humanSize() {
         assertEquals("512 B", FileNames.humanSize(512))

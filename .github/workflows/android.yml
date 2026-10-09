@@ -120,25 +120,27 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION="1.1.${{ github.run_number }}"
-          mv dist/app-release.apk "dist/QRnMerge-v${VERSION}.apk"
-          # Stable file name so https://github.com/<repo>/releases/latest/download/QRnMerge.apk always works.
-          cp "dist/QRnMerge-v${VERSION}.apk" dist/QRnMerge.apk
+          VERSION="1.2.${{ github.run_number }}"
+          mv dist/app-release.apk "dist/Scan2PDF-v${VERSION}.apk"
+          # Stable file names so .../releases/latest/download/Scan2PDF.apk always works;
+          # QRnMerge.apk keeps links shared before the rename working.
+          cp "dist/Scan2PDF-v${VERSION}.apk" dist/Scan2PDF.apk
+          cp "dist/Scan2PDF-v${VERSION}.apk" dist/QRnMerge.apk
           cat > notes.md <<NOTES
-          ## QRnMerge v${VERSION}
+          ## Scan2PDF v${VERSION}
 
-          Ứng dụng gộp **Scan tài liệu + Quét QR + Gộp PDF** của NhảmStudio.
+          Scan tài liệu · Quét QR · Gộp ảnh & PDF thành 1 file PDF – app Android miễn phí của NhảmStudio (trước đây là QRnMerge).
 
-          - **Scan**: scan tài liệu (tự nhận viền, làm phẳng), bộ lọc làm nét Màu sắc nét / Xám / Đen trắng. Tích chọn trang rồi lưu thành ảnh JPG (Pictures/QRnMerge) hoặc 1 file PDF; trang đã lưu được đánh dấu để tránh trùng. Xoay / sắp xếp trang được lưu lại. Ô **QR** nhỏ ở góc để quét mã QR / mã vạch.
-          - **Gộp PDF**: chọn nhiều ảnh và/hoặc PDF, kéo để sắp xếp, gộp thành 1 file PDF lưu vào **Download/QRnMerge**.
+          - **Scan**: tự nhận viền, làm phẳng; bộ lọc Màu sắc nét / Xám / Đen trắng. Trang mới scan hiện lên đầu. Tích chọn trang rồi lưu ảnh JPG (Pictures/Scan2PDF) hoặc 1 file PDF; trang đã lưu được đánh dấu để tránh trùng. Ô **QR** nhỏ ở góc để quét mã QR / mã vạch.
+          - **Gộp PDF**: chọn nhiều ảnh và/hoặc PDF, kéo để sắp xếp, gộp thành 1 file PDF lưu vào **Download/Scan2PDF**.
           - **Giới thiệu**: NhảmStudio · https://topvl.net · Tạo QR miễn phí: https://topvl.net/qr
 
-          Cài đặt: tải file \`QRnMerge.apk\` (hoặc \`QRnMerge-v${VERSION}.apk\`) bên dưới và mở trên điện thoại Android 7.0+.
+          Cài đặt: tải \`Scan2PDF.apk\` bên dưới và mở trên điện thoại Android 7.0+ (cài đè được lên bản QRnMerge cũ).
 
           Commit: ${GITHUB_SHA}
           NOTES
-          gh release create "v${VERSION}" "dist/QRnMerge-v${VERSION}.apk" dist/QRnMerge.apk \
+          gh release create "v${VERSION}" "dist/Scan2PDF-v${VERSION}.apk" dist/Scan2PDF.apk dist/QRnMerge.apk \
             --target "${GITHUB_SHA}" \
-            --title "QRnMerge v${VERSION}" \
+            --title "Scan2PDF v${VERSION}" \
             --notes-file notes.md \
             --latest

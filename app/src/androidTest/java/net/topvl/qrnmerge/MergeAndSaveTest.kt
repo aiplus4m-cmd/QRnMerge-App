@@ -65,7 +65,7 @@ class MergeAndSaveTest {
         assertEquals(3, lastProgress)
         assertEquals(6, result.pageCount)
         assertEquals("$name.pdf", result.saved.displayName)
-        assertEquals("Download/QRnMerge", result.saved.folder)
+        assertEquals("Download/Scan2PDF", result.saved.folder)
         assertEquals(MediaSaver.MIME_PDF, result.saved.mimeType)
 
         // The saved copy on shared storage is a complete, valid PDF.
@@ -73,7 +73,7 @@ class MergeAndSaveTest {
         assertEquals("%PDF", String(bytes, 0, 4))
         assertEquals(result.localFile.length(), bytes.size.toLong())
         assertTrue(String(bytes, bytes.size - 1024, 1024).contains("%%EOF"))
-        assertTrue("file must be visible in Download/QRnMerge", TestFiles.existsInDownloads(context, result.saved.displayName))
+        assertTrue("file must be visible in Download/Scan2PDF", TestFiles.existsInDownloads(context, result.saved.displayName))
 
         val sizes = TestFiles.pageSizes(context, result.saved.uri)
         assertEquals(6, sizes.size)
@@ -191,9 +191,9 @@ class MergeAndSaveTest {
     @Test
     fun jpegIsSavedToPictures() {
         val img = files.image("scan_page.jpg", 800, 1000)
-        val s = MediaSaver.saveJpeg(context, img, "QRnMerge_test_${System.nanoTime()}.jpg")
+        val s = MediaSaver.saveJpeg(context, img, "Scan2PDF_test_${System.nanoTime()}.jpg")
         saved += s
-        assertEquals("Pictures/QRnMerge", s.folder)
+        assertEquals("Pictures/Scan2PDF", s.folder)
         val bytes = TestFiles.readAll(context, s.uri)
         assertEquals(img.length(), bytes.size.toLong())
         assertEquals(0xFF.toByte(), bytes[0]); assertEquals(0xD8.toByte(), bytes[1])

@@ -8,7 +8,7 @@ import java.io.File
 
 data class MergeResult(val saved: SavedFile, val pageCount: Int, val localFile: File)
 
-/** Merge + persist to the device (Download/QRnMerge). Shared by the UI and the scan tab. */
+/** Merge + persist to the device (Download/Scan2PDF). Shared by the UI and the scan tab. */
 object MergeEngine {
 
     fun outputDir(context: Context) = File(context.cacheDir, "merged")

@@ -113,7 +113,7 @@
     <string name="about_features">Tính năng</string>
     <string name="about_f1">Scan tài liệu: làm phẳng, khử bóng, làm nét chữ</string>
     <string name="about_f2">Quét mã QR &amp; mã vạch (camera hoặc ảnh)</string>
-    <string name="about_f3">Gộp ảnh và PDF thành 1 file PDF, lưu vào Download/QRnMerge</string>
+    <string name="about_f3">Gộp ảnh và PDF thành 1 file PDF, lưu vào Download/Scan2PDF</string>
     <string name="about_copyright">© 2026 NhảmStudio</string>
 
     <!-- Scan selection & save -->
@@ -127,9 +127,9 @@
     <string name="scan_delete_confirm">Xoá %1$d trang đã chọn? Không thể hoàn tác.</string>
     <string name="save_sheet_title">Lưu %1$d trang đã chọn</string>
     <string name="save_as_images">Ảnh JPG</string>
-    <string name="save_as_images_desc">Mỗi trang 1 ảnh → Pictures/QRnMerge</string>
+    <string name="save_as_images_desc">Mỗi trang 1 ảnh → Pictures/Scan2PDF</string>
     <string name="save_as_pdf">File PDF</string>
-    <string name="save_as_pdf_desc">Gộp các trang đã chọn thành 1 PDF → Download/QRnMerge</string>
+    <string name="save_as_pdf_desc">Gộp các trang đã chọn thành 1 PDF → Download/Scan2PDF</string>
     <string name="save_dup_warning">%1$d trang trong số này đã được lưu dạng này trước đó. Lưu tiếp sẽ tạo thêm bản sao.</string>
     <string name="save_button">Lưu</string>
     <string name="badge_saved">Đã lưu</string>

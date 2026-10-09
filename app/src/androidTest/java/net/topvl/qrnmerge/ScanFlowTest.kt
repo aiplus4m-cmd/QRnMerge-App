@@ -55,6 +55,20 @@ class ScanFlowTest {
     }
 
     @Test
+    fun newestScanBatchIsShownFirst() = runBlocking {
+        val first = (1..2).map { files.image("a$it.jpg", 800, 1000) }
+        val second = (1..2).map { files.image("b$it.jpg", 800, 1000) }
+        vm.importImages(first.map { Uri.fromFile(it) })
+        val firstIds = vm.pages.map { it.id }
+        vm.importImages(second.map { Uri.fromFile(it) })
+        val secondIds = vm.pages.map { it.id }.filterNot { it in firstIds }
+        // Latest batch on top, pages inside a batch keep their scan order.
+        assertEquals(secondIds + firstIds, vm.pages.map { it.id })
+        assertTrue(secondIds[0] < secondIds[1])
+        assertEquals(secondIds + firstIds, ScanViewModel(app).pages.map { it.id })
+    }
+
+    @Test
     fun rotationOrderAndFilterSurviveAppRestart() {
         importThree()
         val second = vm.pages[1]
@@ -82,7 +96,7 @@ class ScanFlowTest {
         saved += result
         assertEquals(2, result.size)
         result.forEach {
-            assertEquals("Pictures/QRnMerge", it.folder)
+            assertEquals("Pictures/Scan2PDF", it.folder)
             assertEquals(MediaSaver.MIME_JPEG, it.mimeType)
             assertTrue(TestFiles.readAll(context, it.uri).size > 1000)
         }
@@ -110,7 +124,7 @@ class ScanFlowTest {
         saved += result
         assertEquals(1, result.size)
         assertEquals("$name.pdf", result[0].displayName)
-        assertEquals("Download/QRnMerge", result[0].folder)
+        assertEquals("Download/Scan2PDF", result[0].folder)
         val sizes = TestFiles.pageSizes(context, result[0].uri)
         assertEquals(3, sizes.size)
         fun near(a: Pair<Int, Int>, b: Pair<Int, Int>) = abs(a.first - b.first) <= 2 && abs(a.second - b.second) <= 2

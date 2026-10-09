@@ -121,9 +121,9 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
             }.filterNotNull()
         }.getOrDefault(emptyList())
         val known = fromManifest.map { it.file.name }.toSet()
-        val orphans = files.values.filter { it.name !in known }.sortedBy { it.name }
+        val orphans = files.values.filter { it.name !in known }.sortedByDescending { it.name }
             .map { ScanPage(it.nameWithoutExtension.toLongOrNull() ?: it.lastModified(), it) }
-        return fromManifest + orphans
+        return orphans + fromManifest
     }
 
     private fun commitPages(value: List<ScanPage>) {
@@ -171,7 +171,8 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
                 }.getOrNull()
             }
         }
-        commitPages(pages + added)
+        // Newest scan batch first; pages inside one batch keep their scan order.
+        commitPages(added + pages)
         selected = selected + added.map { it.id }
         return uris.size - added.size
     }

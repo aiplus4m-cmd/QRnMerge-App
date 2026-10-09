@@ -16,14 +16,14 @@ import java.io.IOException
 data class SavedFile(
     val uri: Uri,
     val displayName: String,
-    /** Human readable folder, e.g. "Download/QRnMerge". */
+    /** Human readable folder, e.g. "Download/Scan2PDF". */
     val folder: String,
     val mimeType: String,
     val sizeBytes: Long,
 )
 
 object MediaSaver {
-    const val FOLDER = "QRnMerge"
+    const val FOLDER = "Scan2PDF"
     const val MIME_PDF = "application/pdf"
     const val MIME_JPEG = "image/jpeg"
 

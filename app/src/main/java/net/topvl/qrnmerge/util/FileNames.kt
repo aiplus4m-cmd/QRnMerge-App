@@ -10,7 +10,7 @@ object FileNames {
     fun timestamp(date: Date = Date()): String =
         SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(date)
 
-    fun defaultPdfName(prefix: String = "QRnMerge", date: Date = Date()) = "${prefix}_${timestamp(date)}"
+    fun defaultPdfName(prefix: String = "Scan2PDF", date: Date = Date()) = "${prefix}_${timestamp(date)}"
 
     /** Turns user input into a safe file name with the given extension (".pdf", ".jpg", ...). */
     fun sanitize(input: String, extension: String, fallback: String = defaultPdfName()): String {
