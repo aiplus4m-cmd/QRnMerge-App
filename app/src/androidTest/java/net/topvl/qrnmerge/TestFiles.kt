@@ -114,7 +114,7 @@ class TestFiles(val context: Context) {
                 else {
                     @Suppress("DEPRECATION")
                     val dir = android.os.Environment.getExternalStoragePublicDirectory(saved.folder.substringBefore('/'))
-                    File(File(dir, "QRnMerge"), saved.displayName).delete()
+                    File(File(dir, "Scan2PDF"), saved.displayName).delete()
                 }
             }
         }
@@ -124,7 +124,7 @@ class TestFiles(val context: Context) {
             if (Build.VERSION.SDK_INT < 29) {
                 @Suppress("DEPRECATION")
                 val dir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
-                return File(File(dir, "QRnMerge"), displayName).let { it.exists() && it.length() > 0 }
+                return File(File(dir, "Scan2PDF"), displayName).let { it.exists() && it.length() > 0 }
             }
             val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.RELATIVE_PATH, MediaStore.MediaColumns.IS_PENDING)
             context.contentResolver.query(
@@ -132,7 +132,7 @@ class TestFiles(val context: Context) {
                 "${MediaStore.MediaColumns.DISPLAY_NAME}=?", arrayOf(displayName), null,
             )?.use { c ->
                 while (c.moveToNext()) {
-                    if (c.getString(1).trimEnd('/') == "Download/QRnMerge" && c.getInt(2) == 0) return true
+                    if (c.getString(1).trimEnd('/') == "Download/Scan2PDF" && c.getInt(2) == 0) return true
                 }
             }
             return false

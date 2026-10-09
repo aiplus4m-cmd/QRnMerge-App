@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Scan2PDF: a page being scanned (orange beam inside viewfinder corners) on top of a second page (merge). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- keep everything inside the 66dp safe circle, optically centred -->
+    <group android:pivotX="54" android:pivotY="57.5" android:scaleX="0.82" android:scaleY="0.82" android:translateY="-3.5">
+    <!-- back page: merged document -->
+    <path android:fillColor="#FFA9CBEE"
+        android:pathData="M45,30H68Q71,30 71,33V67Q71,70 68,70H45Q42,70 42,67V33Q42,30 45,30Z" />
+    <!-- front page with folded corner -->
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M39,37H57L65,45V75Q65,78 62,78H39Q36,78 36,75V40Q36,37 39,37Z" />
+    <path android:fillColor="#FFD3E4F6"
+        android:pathData="M57,37V45H65Z" />
+    <!-- text lines -->
+    <path android:fillColor="#FF8FB1D6" android:pathData="M41,50h17v2.4h-17z" />
+    <path android:fillColor="#FF8FB1D6" android:pathData="M41,55.5h19v2.4h-19z" />
+    <path android:fillColor="#FF8FB1D6" android:pathData="M41,61h14v2.4h-14z" />
+    <path android:fillColor="#FF8FB1D6" android:pathData="M41,66.5h18v2.4h-18z" />
+    <!-- viewfinder corners -->
+    <path android:strokeColor="#FFFFFFFF" android:strokeWidth="3.2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M28,36V31Q28,28 31,28H36 M72,28H77Q80,28 80,31V36 M80,79V84Q80,87 77,87H72 M36,87H31Q28,87 28,84V79" />
+    <!-- scan beam -->
+    <path android:fillColor="#55F28A2C" android:pathData="M30,56h48v7h-48z" />
+    <path android:fillColor="#FFF28A2C" android:pathData="M30,58.5h48v2.6h-48z" />
+    </group>
+</vector>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QRnMerge</string>
+    <string name="app_name">Scan2PDF</string>
 
     <string name="tab_scan">Scan</string>
     <string name="tab_merge">Merge</string>
@@ -119,7 +119,7 @@
     <string name="about_features">Features</string>
     <string name="about_f1">Document scanner with flattening, shadow removal and text sharpening</string>
     <string name="about_f2">QR &amp; barcode scanner (camera or image)</string>
-    <string name="about_f3">Merge images and PDFs into one PDF, saved to Download/QRnMerge</string>
+    <string name="about_f3">Merge images and PDFs into one PDF, saved to Download/Scan2PDF</string>
     <string name="about_copyright">© 2026 NhảmStudio</string>
 
     <!-- Scan selection & save -->
@@ -133,9 +133,9 @@
     <string name="scan_delete_confirm">Delete %1$d selected page(s)? This cannot be undone.</string>
     <string name="save_sheet_title">Save %1$d selected page(s)</string>
     <string name="save_as_images">JPG images</string>
-    <string name="save_as_images_desc">One image per page → Pictures/QRnMerge</string>
+    <string name="save_as_images_desc">One image per page → Pictures/Scan2PDF</string>
     <string name="save_as_pdf">PDF document</string>
-    <string name="save_as_pdf_desc">Selected pages combined in one PDF → Download/QRnMerge</string>
+    <string name="save_as_pdf_desc">Selected pages combined in one PDF → Download/Scan2PDF</string>
     <string name="save_dup_warning">%1$d of these pages were already saved in this format. Saving again creates another copy.</string>
     <string name="save_button">Save</string>
     <string name="badge_saved">Saved</string>

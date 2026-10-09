@@ -1,17 +1,19 @@
-# QRnMerge
+# Scan2PDF
+
+> Tên cũ: QRnMerge
 
 **Scan tài liệu · Quét QR · Gộp PDF** – gộp 2 app *MyScanner* và *PDF Merger* của NhảmStudio thành 1 app Android gọn nhẹ.
 
 | Tab | Chức năng |
 |-----|-----------|
-| **Scan** (mặc định) | Scan tài liệu bằng Google ML Kit Document Scanner (tự nhận viền, **làm phẳng** phối cảnh). Bộ lọc *Màu sắc nét / Xám / Đen trắng / Gốc* khử bóng, làm trắng giấy, **làm nét chữ** (Độ nét, Tương phản – được ghi nhớ). Nút **Scan thêm** luôn nằm ở thanh dưới. **Tích chọn trang** → *Lưu* → chọn **Ảnh JPG** (`Pictures/QRnMerge`) hoặc **1 file PDF** (`Download/QRnMerge`); trang đã lưu được gắn nhãn *JPG/PDF* và bỏ chọn để tránh lưu trùng. Xoay / sắp xếp / xoá trang được lưu lại kể cả khi tắt app. Ô **QR** nhỏ ở góc phải để quét mã QR / mã vạch (camera hoặc từ ảnh) – kèm quảng cáo công cụ tạo QR miễn phí https://topvl.net/qr |
-| **Gộp PDF** | Chọn nhiều ảnh và/hoặc PDF, kéo ≡ để sắp xếp, đặt tên, chọn khổ trang (A4 / theo ảnh) → gộp thành 1 PDF lưu vào **`Download/QRnMerge`**, sau đó Mở / Chia sẻ / Lưu vào vị trí khác. Nhận cả file được *Chia sẻ* từ app khác. |
+| **Scan** (mặc định) | Scan tài liệu bằng Google ML Kit Document Scanner (tự nhận viền, **làm phẳng** phối cảnh). Bộ lọc *Màu sắc nét / Xám / Đen trắng / Gốc* khử bóng, làm trắng giấy, **làm nét chữ** (Độ nét, Tương phản – được ghi nhớ). Nút **Scan thêm** luôn nằm ở thanh dưới; trang mới scan hiện lên đầu. **Tích chọn trang** → *Lưu* → chọn **Ảnh JPG** (`Pictures/Scan2PDF`) hoặc **1 file PDF** (`Download/Scan2PDF`); trang đã lưu được gắn nhãn *JPG/PDF* và bỏ chọn để tránh lưu trùng. Xoay / sắp xếp / xoá trang được lưu lại kể cả khi tắt app. Ô **QR** nhỏ ở góc phải để quét mã QR / mã vạch (camera hoặc từ ảnh) – kèm quảng cáo công cụ tạo QR miễn phí https://topvl.net/qr |
+| **Gộp PDF** | Chọn nhiều ảnh và/hoặc PDF, kéo ≡ để sắp xếp, đặt tên, chọn khổ trang (A4 / theo ảnh) → gộp thành 1 PDF lưu vào **`Download/Scan2PDF`**, sau đó Mở / Chia sẻ / Lưu vào vị trí khác. Nhận cả file được *Chia sẻ* từ app khác. |
 | **Giới thiệu** | Logo, Dev: NhảmStudio, Web: https://topvl.net |
 
 ## Tải APK
-- Bản mới nhất: **[QRnMerge.apk](https://github.com/aiplus4m-cmd/QRnMerge-App/releases/latest/download/QRnMerge.apk)**
+- Bản mới nhất: **[Scan2PDF.apk](https://github.com/aiplus4m-cmd/Scan2PDF-App/releases/latest/download/Scan2PDF.apk)**
 - Mỗi lần push lên `main`, GitHub Actions build + test rồi đăng APK vào mục **[Releases](../../releases)**.
-- Đoạn HTML giới thiệu app cho website: [`docs/website/qrnmerge-section.html`](docs/website/qrnmerge-section.html).
+- Đoạn HTML giới thiệu app cho website: [`docs/website/scan2pdf-section.html`](docs/website/scan2pdf-section.html).
 
 ## Kỹ thuật
 - Kotlin + Jetpack Compose (Material 3), minSdk 24 (Android 7.0), targetSdk 35.
@@ -22,7 +24,7 @@
 
 ## Kiểm thử
 - `./gradlew testDebugUnitTest` – unit test bộ lọc ảnh, phân tích nội dung QR, tên file.
-- `./gradlew connectedDebugAndroidTest` – test trên thiết bị: gộp PDF+ảnh theo đúng thứ tự, kiểm tra file PDF **đã lưu trên máy** (Download/QRnMerge) đọc lại được, đúng số trang/khổ trang, trùng tên, PDF có mật khẩu, file hỏng, 12 ảnh 12MP, lưu ảnh JPEG, và test UI end-to-end bấm nút Gộp.
+- `./gradlew connectedDebugAndroidTest` – test trên thiết bị: gộp PDF+ảnh theo đúng thứ tự, kiểm tra file PDF **đã lưu trên máy** (Download/Scan2PDF) đọc lại được, đúng số trang/khổ trang, trùng tên, PDF có mật khẩu, file hỏng, 12 ảnh 12MP, lưu ảnh JPEG, và test UI end-to-end bấm nút Gộp.
 - CI chạy trên emulator Android 9 (API 28, lưu kiểu cũ) và Android 14 (API 34, MediaStore), rồi cài APK release đã ký + mở thử từng tab.
 
 ## Ký APK
