@@ -49,8 +49,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.MergeType
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Check
@@ -442,7 +440,7 @@ private fun ScanWorkspace(
             }
             itemsIndexed(vm.pages, key = { _, p -> p.id }) { index, page ->
                 PageThumb(
-                    number = index + 1,
+                    number = vm.documentNumber(page),
                     page = page,
                     settings = settings,
                     selected = page.id in vm.selected,
@@ -599,7 +597,6 @@ private fun PageThumb(
 
 @Composable
 private fun PagePreviewDialog(vm: ScanViewModel, startIndex: Int, onDismiss: () -> Unit) {
-    val scope = rememberCoroutineScope()
     val pager = rememberPagerState(initialPage = startIndex) { vm.pages.size }
     var showOriginal by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
@@ -632,7 +629,7 @@ private fun PagePreviewDialog(vm: ScanViewModel, startIndex: Int, onDismiss: () 
             Row(Modifier.fillMaxWidth().padding(8.dp).align(Alignment.TopCenter), verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onDismiss) { Icon(Icons.Outlined.Close, stringResource(R.string.close), tint = Color.White) }
                 Text(
-                    stringResource(R.string.page_x_of_y, pager.currentPage + 1, vm.pages.size),
+                    stringResource(R.string.page_x_of_y, current?.let { vm.documentNumber(it) } ?: 0, vm.pages.size),
                     color = Color.White, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f),
                 )
                 if (current != null) SavedBadges(current, Modifier.padding(end = 8.dp))
@@ -646,31 +643,17 @@ private fun PagePreviewDialog(vm: ScanViewModel, startIndex: Int, onDismiss: () 
             }
 
             Column(Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(
-                        onClick = {
-                            current?.let { vm.move(it, -1); scope.launch { pager.scrollToPage(pager.currentPage - 1) } }
-                        },
-                        enabled = pager.currentPage > 0,
-                    ) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.move_earlier), tint = Color.White) }
-                    Row(
-                        Modifier.clip(RoundedCornerShape(20.dp)).background(Color.White.copy(alpha = 0.12f))
-                            .clickable { current?.let(vm::toggleSelected) }.padding(end = 14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Checkbox(
-                            checked = current != null && current.id in vm.selected,
-                            onCheckedChange = { current?.let(vm::toggleSelected) },
-                            colors = CheckboxDefaults.colors(checkedColor = BrandOrange, uncheckedColor = Color.White),
-                        )
-                        Text(stringResource(R.string.select_page), color = Color.White)
-                    }
-                    IconButton(
-                        onClick = {
-                            current?.let { vm.move(it, 1); scope.launch { pager.scrollToPage(pager.currentPage + 1) } }
-                        },
-                        enabled = pager.currentPage < vm.pages.lastIndex,
-                    ) { Icon(Icons.AutoMirrored.Outlined.ArrowForward, stringResource(R.string.move_later), tint = Color.White) }
+                Row(
+                    Modifier.clip(RoundedCornerShape(20.dp)).background(Color.White.copy(alpha = 0.12f))
+                        .clickable { current?.let(vm::toggleSelected) }.padding(end = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = current != null && current.id in vm.selected,
+                        onCheckedChange = { current?.let(vm::toggleSelected) },
+                        colors = CheckboxDefaults.colors(checkedColor = BrandOrange, uncheckedColor = Color.White),
+                    )
+                    Text(stringResource(R.string.select_page), color = Color.White)
                 }
                 Text(
                     stringResource(R.string.scan_hold_compare),

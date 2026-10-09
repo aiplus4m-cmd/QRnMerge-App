@@ -136,8 +136,6 @@
     <string name="select_hint">Tích chọn các trang cần lưu rồi bấm Lưu.</string>
     <string name="nothing_selected">Hãy chọn ít nhất 1 trang</string>
     <string name="page_x_of_y">Trang %1$d / %2$d</string>
-    <string name="move_earlier">Đưa lên trước</string>
-    <string name="move_later">Đưa ra sau</string>
     <string name="select_page">Chọn trang</string>
     <string name="scan_adjust">Tinh chỉnh</string>
     <string name="scan_send_merge">Sang Gộp (%1$d)</string>

@@ -91,7 +91,14 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
     var lastSaved by mutableStateOf<List<SavedFile>>(emptyList())
         private set
 
-    val selectedPages: List<ScanPage> get() = pages.filter { it.id in selected }
+    /**
+     * Pages are displayed newest-first, but documents are built in scan order: oldest scan first,
+     * pages inside one scan batch in their original order. Ids grow with every imported page.
+     */
+    val selectedPages: List<ScanPage> get() = pages.filter { it.id in selected }.sortedBy { it.id }
+
+    /** 1-based position of [page] in the exported document order (oldest scan = 1). */
+    fun documentNumber(page: ScanPage): Int = pages.count { it.id < page.id } + 1
 
     // ---- persistence -------------------------------------------------------------------------
 
@@ -180,13 +187,6 @@ class ScanViewModel(private val app: Application) : AndroidViewModel(app) {
     fun rotate(page: ScanPage) {
         PageRenderer.evict(page)
         commitPages(pages.map { if (it.id == page.id) it.copy(rotation = (it.rotation + 90) % 360) else it })
-    }
-
-    fun move(page: ScanPage, delta: Int) {
-        val from = pages.indexOfFirst { it.id == page.id }
-        val to = (from + delta).coerceIn(0, pages.lastIndex)
-        if (from < 0 || from == to) return
-        commitPages(pages.toMutableList().apply { add(to, removeAt(from)) })
     }
 
     fun remove(page: ScanPage) = removeAll(setOf(page.id))
